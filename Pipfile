@@ -7,6 +7,12 @@ verify_ssl = true
 
 [packages]
 django = "*"
+celery = "*"
+requests = "*"
+redis = "*"
+flower = "*"
+django-redis = "*"
+pytils = "*"
 
 [requires]
 python_version = "3.8"

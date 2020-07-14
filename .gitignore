@@ -1,8 +1,9 @@
 # Custom
 src/config/settings/
 src/templates/
-
-
+*.db
+srv_config/
+static/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,python,pycharm,git
