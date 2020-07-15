@@ -13,6 +13,7 @@ redis = "*"
 flower = "*"
 django-redis = "*"
 pytils = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
