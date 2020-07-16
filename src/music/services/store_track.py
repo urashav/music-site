@@ -1,9 +1,12 @@
 from ..models import Track
-
+from django.db.models import Q
+from django.utils.text import slugify
 
 def store_track(track_data, playlist):
     for track in track_data['tracks']:
-        if not Track.objects.filter(original_id=track['id']):
+        # Только для проверки на совпадение
+        slug = slugify(track.get('title'), allow_unicode=True)
+        if not Track.objects.filter(Q(original_id=track['id']) | Q(slug=slug)):
             try:
                 track_obj = Track()
                 # track_obj.slug = track.get('title')

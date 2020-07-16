@@ -102,8 +102,7 @@ class Track(models.Model):
         is_new = self._state.adding
 
         if is_new:
-            now = time.time()
-            self.slug = slugify(self.title, allow_unicode=True) + f"-{now}"
+            self.slug = slugify(self.title, allow_unicode=True)
 
         super().save(*args, **kwargs)
 
