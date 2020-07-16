@@ -1,7 +1,7 @@
 from ..models import Track
 from django.db.models import Q
 from django.utils.text import slugify
-
+from django.db.utils import DataError
 def store_track(track_data, playlist):
     for track in track_data['tracks']:
         # Только для проверки на совпадение
@@ -26,7 +26,7 @@ def store_track(track_data, playlist):
                 track_obj.release_day = track.get('release_day')
                 track_obj.save()
 
-            except KeyError as exc:
+            except (KeyError, DataError) as exc:
                 # TODO: Настроить логирование
                 print('exc')
     return True
