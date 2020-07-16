@@ -53,7 +53,7 @@ class Track(models.Model):
     artwork_img_url Изображение композиции
     waveform_img_url Визуализация дорожки
     """
-    slug = models.SlugField(allow_unicode=True, unique=True)
+    slug = models.SlugField(allow_unicode=True, unique=True, max_length=255)
     original_id = models.BigIntegerField('Оригинальный ID', null=True, unique=True)
     title = models.CharField('Название', max_length=255, null=False)
     permalink_url = models.CharField('Ссылка', max_length=255, null=True)
