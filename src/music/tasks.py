@@ -36,7 +36,7 @@ def fetch_page(self, playlist_id):
     :param playlist_id:
     :return:
     """
-    playlist = Playlist.objects.get(id=playlist_id)
+    playlist = Playlist.objects.get(pk=playlist_id)
     try:
         page = requests.get(playlist.full_url)
     except requests.exceptions.ConnectionError as e:
