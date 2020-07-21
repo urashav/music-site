@@ -9,6 +9,7 @@ from .services.get_stream_url import get_stream_url
 
 from pytils.translit import slugify
 
+
 def home(request):
     new = Track.objects.all()[:16]
     recommended = Track.objects.order_by('?')[:8]
@@ -21,7 +22,7 @@ def home(request):
         'new': new,
         'recommended': recommended,
         'popular': popular,
-     }
+    }
     return render(request, 'index.html', context)
 
 
@@ -67,3 +68,15 @@ def download(request, slug):
     response = HttpResponse(opener, content_type="application/octet-stream")
     response["Content-Disposition"] = f"attachment; filename={filename}"
     return response
+
+
+@restful('GET')
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: /admin",
+
+        "Sitemap: https://audiorussia.net/sitemap.xml",
+        "Host: https://audiorussia.net",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
