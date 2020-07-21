@@ -1,9 +1,5 @@
-from datetime import datetime
-import time
 from django.db import models
-from django.urls import reverse
 from django.utils.text import slugify
-from django.utils import timezone
 from .services.ms2time import ms2time
 
 
@@ -74,8 +70,8 @@ class Track(models.Model):
     updated_at = models.DateTimeField('Изменен', auto_now=True)
     playlist_id = models.ForeignKey(Playlist, on_delete=models.CASCADE, verbose_name='ID Плейлиста')
 
-    # def get_absolute_url(self):
-    #     return reverse('detail', kwargs={'slug': self.slug})
+    def get_absolute_url(self):
+        return f'/{self.slug}'
 
     def get_duration(self):
         duration = ms2time(self.duration)

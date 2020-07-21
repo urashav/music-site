@@ -4,11 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 import requests
 from .models import Track
-from django.core.cache import cache
 from .decorators import restful
-from django.core import serializers
-from django.db.models import F
-from .services.custom_playlist import custom_playlist
 from .services.get_stream_url import get_stream_url
 
 from pytils.translit import slugify
@@ -30,7 +26,7 @@ def home(request):
 
 
 def detail(request, slug):
-    track = Track.objects.get(slug=slug)
+    track = get_object_or_404(Track, slug=slug)
 
     new = Track.objects.all()[:16]
     recommended = Track.objects.order_by('?')[:8]
