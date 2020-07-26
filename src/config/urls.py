@@ -9,6 +9,6 @@ sitemaps = {'track': TrackSitemap}
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sitemap.xml/', sitemap, {'sitemaps': sitemaps}),
-    path("robots.txt/", views.robots_txt),
+    path("robots.txt", views.robots_txt),
     path('', include('music.urls')),
 ]
