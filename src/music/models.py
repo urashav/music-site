@@ -94,3 +94,28 @@ class Track(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Keywords(models.Model):
+    STATUS_CHOICES = (
+        ('new', 'Новый'),
+        ('in_process', 'В обработке...'),
+        ('done', 'Готов'),
+        ('error', 'Ошибка'),
+    )
+
+    keyword = models.CharField(verbose_name='Ключевое слово', max_length=255, null=False, blank=False)
+    offset = models.IntegerField(verbose_name='Пропуск записей', null=False, default=0, blank=True)
+    limit = models.IntegerField(verbose_name='Лимит записей', null=False, default=10, blank=True)
+    total_results = models.IntegerField(verbose_name='Всего записей', null=False, default=0, blank=True, )
+    status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default='new')
+    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    updated_at = models.DateTimeField('Изменен', auto_now=True)
+
+    class Meta:
+        ordering = ('-created_at',)
+        verbose_name = "Ключевые слова"
+        verbose_name_plural = "Ключевые слова"
+
+    def __str__(self):
+        return self.keyword

@@ -1,6 +1,23 @@
 from django.contrib import admin
-from .models import Playlist, Track
+from .models import Playlist, Track, Keywords
 from django.conf import settings
+
+
+class KeywordsAdmin(admin.ModelAdmin):
+    readonly_fields = ["total_results"]
+    list_display = (
+        'id',
+        'keyword',
+        'offset',
+        'limit',
+        'status',
+        'total_results',
+        'created_at',
+        'updated_at',
+    )
+
+
+admin.site.register(Keywords, KeywordsAdmin)
 
 
 class PlaylistAdmin(admin.ModelAdmin):

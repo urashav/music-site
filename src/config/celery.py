@@ -19,5 +19,9 @@ app.conf.beat_schedule = {
     'get_playlist_original_id_every_minute': {
         'task': 'music.tasks.get_playlist_original_id',
         'schedule': crontab(minute='*/1'),
+    },
+    'get_playlists_from_keywords_every_minute': {
+        'task': 'music.tasks.get_playlists_from_keywords',
+        'schedule': crontab(minute='*/1'),
     }
 }
