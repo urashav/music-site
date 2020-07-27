@@ -17,21 +17,6 @@ class Playlist(models.Model):
     created_at = models.DateTimeField('Создан', auto_now_add=True)
     status = models.CharField('Статус', max_length=10, choices=STATUS_CHOICES, default='new')
 
-    def save(self, *args, **kwargs):
-        """
-            Метод переопределен для корректной постановки задачи в Celery
-        :param args:
-        :param kwargs:
-        :return:
-        """
-
-        from music.tasks import get_playlist_original_id
-        is_new = self._state.adding
-        super().save(*args, **kwargs)
-
-        if is_new:
-            get_playlist_original_id(self.pk)
-
     class Meta:
         ordering = ('-created_at',)
         verbose_name = "Плейлист"

@@ -5,10 +5,10 @@ from celery.exceptions import MaxRetriesExceededError
 from config.celery import app
 from music.models import Playlist
 from .services.store_track import store_track
+
 """
 Таски для Celery
 """
-
 
 CLIENT_ID = "a3dd183a357fcff9a6943c0d65664087"
 STREAM_URL = f"https://api.soundcloud.com/i1/tracks/{0}/streams?client_id={CLIENT_ID}"
@@ -17,14 +17,17 @@ STREAM_URL = f"https://api.soundcloud.com/i1/tracks/{0}/streams?client_id={CLIEN
 https://cf-media.sndcdn.com/TKL2d40kIJqK.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vVEtMMmQ0MGtJSnFLLjEyOC5tcDMiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE1OTI0NjM4NzF9fX1dfQ__&Signature=CWn-AXx~KrRyfSA~bB4M~ISFpZLVgX9~RnhZlo3T2clm6MEf7TfxYjm6gZIP4mqUPEdEystKenKkwdbOYc-QctISipKAJbWIsUKb8KFKcUuEd0RnJ65VK0~ofUZN6oTCLtGfEiDuS5M8WQSjLHHgYbvxSBUJdj8o6znIXjjKZsSQbbcbSoierafVvUbymo2~6ZNjypqi--0WWxoGIP~S8N6sM898Xm3I41JdgkoKhLryHIjbHWX9PLmEaOSi9c9Mlh7KNCI~qInJCCt9AJnmsDxbSNEP76WKSaw2917cAK2EldEcqc8-s9SX-maXGi3ELjjlJljanL3U1D5ScmMPDw__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ
 """
 
-def get_playlist_original_id(playlist_id):
+
+@app.task(bind=True, default_retry_delay=10 * 60, max_retries=3)
+def get_playlist_original_id(self):
     """
-    Запускаем таски
-    :param playlist_id:
-    :return:
-    """
-    chain = fetch_page.s(playlist_id) | store_page_info.s(playlist_id)
-    chain()
+        Запускаем таски
+        :param playlist_id:
+        :return:
+        """
+    for playlist in Playlist.objects.filter(status='new')[:1]:
+        chain = fetch_page.s(playlist.id) | store_page_info.s(playlist.id)
+        chain()
 
 
 @app.task(bind=True, default_retry_delay=10 * 60, max_retries=3)
