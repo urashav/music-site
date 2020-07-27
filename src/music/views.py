@@ -48,6 +48,11 @@ def detail(request, slug):
     return render(request, 'detail.html', context)
 
 
+def legal(request):
+    context = {}
+    return render(request, 'legal.html', context)
+
+
 @restful('POST')
 def play(request, track_id):
     response = get_stream_url(track_id)
@@ -75,6 +80,7 @@ def robots_txt(request):
     lines = [
         "User-Agent: *",
         "Disallow: /admin",
+        "Disallow: /legal",
 
         "Sitemap: https://audiorussia.net/sitemap.xml",
         "Host: https://audiorussia.net",
