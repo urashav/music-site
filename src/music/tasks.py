@@ -24,7 +24,7 @@ https://api-v2.soundcloud.com/search/playlists_without_albums?q=russian&sc_a_id=
 
 @app.task(bind=True, default_retry_delay=10 * 60, max_retries=3)
 def get_playlists_from_keywords(self):
-    for keyword in Keywords.objects.filter(Q(status='new') | Q(status='in_process'))[:1]:
+    for keyword in Keywords.objects.filter(Q(status='new') | Q(status='in_process')).order_by('?')[:1]:
         api_url = f"https://api-v2.soundcloud.com/search/playlists_without_albums?q={keyword.keyword}&sc_a_id=a674aaeac948cbaf191091fd2becb346700c71b3&variant_ids=1933&facet=genre&user_id=205566-30266-370477-883383&client_id=qRWH2RsvPGYONh3ogLQUj1zRUE6CTmDq&limit={keyword.limit}&offset={keyword.offset}&linked_partitioning=1&app_version=1593700229&app_locale=en"
         json_playlist = requests.get(api_url).json()
 
